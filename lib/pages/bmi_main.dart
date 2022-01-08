@@ -37,26 +37,16 @@ class _FormPageState extends State<FormPage> {
           height: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/bg_form.jpg'),
+              image: AssetImage('images/bg_form2.jpg'),
               fit: BoxFit.cover,
             ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const FaIcon(
-                FontAwesomeIcons.running,
-                color: Colors.green,
-                size: 90,
-              ),
+              faicon(),
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-              const Text(
-                'คำนวณหาค่า BMI ของคุณ',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-              ),
+              topictext(),
               const Padding(padding: EdgeInsets.symmetric(vertical: 15)),
               Form(
                 key: _formKey,
@@ -69,37 +59,57 @@ class _FormPageState extends State<FormPage> {
                 ),
               ),
               const Padding(padding: EdgeInsets.only(bottom: 20)),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    var route = MaterialPageRoute(
-                      builder: (context) => ResultPage(
-                        weight: _weight.text,
-                        height: _height.text,
-                      ),
-                    );
-                    Navigator.push(context, route);
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                      timeInSecForIosWeb: 3,
-                    );
-                  }
-                },
-                child: const Text(
-                  'ยืนยัน',
-                  style: TextStyle(fontSize: 20),
-                ),
-                style: ElevatedButton.styleFrom(
-                    // primary: Colors.pink,
-                    fixedSize: const Size(150, 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15))),
-              ),
+              enterbtn(context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  ElevatedButton enterbtn(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          var route = MaterialPageRoute(
+            builder: (context) => ResultPage(
+              weight: _weight.text,
+              height: _height.text,
+            ),
+          );
+          Navigator.push(context, route);
+        } else {
+          Fluttertoast.showToast(
+            msg: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            timeInSecForIosWeb: 3,
+          );
+        }
+      },
+      child: const Text(
+        'ยืนยัน',
+        style: TextStyle(fontSize: 20),
+      ),
+      style: ElevatedButton.styleFrom(
+          // primary: Colors.pink,
+          fixedSize: const Size(150, 50),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+    );
+  }
+
+  Text topictext() {
+    return const Text(
+      'คำนวณหาค่า BMI ของคุณ',
+      style: TextStyle(
+          fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
+    );
+  }
+
+  FaIcon faicon() {
+    return const FaIcon(
+      FontAwesomeIcons.running,
+      color: Colors.green,
+      size: 90,
     );
   }
 

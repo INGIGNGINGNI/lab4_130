@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ResultPage extends StatefulWidget {
   const ResultPage({Key? key, this.weight, this.height}) : super(key: key);
@@ -43,115 +44,204 @@ class _ResultPageState extends State<ResultPage> {
           child: Column(
             children: [
               const Padding(padding: EdgeInsets.all(50)),
-              const Text(
-                'BMI',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.green),
-              ),
+              topictext(),
               const Padding(padding: EdgeInsets.only(bottom: 20)),
-              SizedBox(
-                width: 300,
-                child: Column(
-                  children: [
-                    Text(
-                      'น้ำหนัก : ${widget.weight!}' + ' กิโลกรัม',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const Padding(padding: EdgeInsets.only(bottom: 10)),
-                    Text(
-                      'ส่วนสูง : ${widget.height!}' + ' เซนติเมตร',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                    const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            calculate();
-                          },
-                          child: const Text(
-                            'คำนวณ',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              // primary: Colors.pink,
-                              fixedSize: const Size(120, 40),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15))),
-                        ),
-                        const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10)),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text(
-                            'กลับ',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              // primary: Colors.pink,
-                              fixedSize: const Size(120, 40),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15))),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10, 25, 10, 10),
-                      padding: const EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
-                        image: DecorationImage(
-                            fit: BoxFit.none,
-                            colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.4), BlendMode.dstIn),
-                            image: const AssetImage('images/bg_form.jpg')),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Text(
-                        _result == null
-                            ? 'No result'
-                            : _result!.toStringAsFixed(2),
-                        style: const TextStyle(
-                            fontSize: 50,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.green),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.4), BlendMode.dstIn),
-                            image: const AssetImage('images/bg_form.jpg')),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Text(
-                        'การแปลผล : ' + _msg.toString(),
-                        style: const TextStyle(fontSize: 22),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
+              Row(
+                children: [
+                  weight(),
+                  height(),
+                ],
+              ),
+              Column(
+                children: [
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                  btn(context),
+                  resultbox(),
+                  answerbox()
+                ],
               ),
               // const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Container height() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          colorFilter:
+              ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstIn),
+          image: const AssetImage('images/bg_drawer2.jpg'),
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 10),
+            blurRadius: 10,
+            color: Color(0xFFB6B6B6),
+          )
+        ],
+      ),
+      margin: const EdgeInsets.only(right: 30),
+      width: 160,
+      height: 120,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(
+              FontAwesomeIcons.rulerVertical,
+              color: Colors.green[700],
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+            Text(
+              widget.height! + ' CM.',
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container weight() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          colorFilter:
+              ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstIn),
+          image: const AssetImage('images/bg_box1.jpg'),
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 10),
+            blurRadius: 10,
+            color: Color(0xFFB6B6B6),
+          )
+        ],
+      ),
+      margin: const EdgeInsets.fromLTRB(30, 0, 10, 0),
+      width: 160,
+      height: 120,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(
+              FontAwesomeIcons.weight,
+              color: Colors.green[700],
+            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+            Text(
+              widget.weight! + ' KG.',
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container answerbox() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+      padding: const EdgeInsets.all(10),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+          image: const AssetImage('images/bg_form.jpg'),
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Text(
+        _msg == null ? '' : _msg!.toString(),
+        // 'การแปลผล : ' + _msg.toString(),
+        style: const TextStyle(fontSize: 22),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Container resultbox() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(30, 25, 30, 10),
+      padding: const EdgeInsets.all(10),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: const Color(0xffffffff),
+        image: DecorationImage(
+          fit: BoxFit.none,
+          colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+          image: const AssetImage('images/bg_form.jpg'),
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Text(
+        _result == null ? '' : _result!.toStringAsFixed(2),
+        style: const TextStyle(
+            fontSize: 50, fontWeight: FontWeight.w700, color: Colors.green),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Row btn(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            calculate();
+          },
+          child: const Text(
+            'คำนวณ',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(
+              // primary: Colors.pink,
+              fixedSize: const Size(120, 40),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
+        ),
+        const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text(
+            'กลับ',
+            style: TextStyle(fontSize: 20),
+          ),
+          style: ElevatedButton.styleFrom(
+              // primary: Colors.pink,
+              fixedSize: const Size(120, 40),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
+        ),
+      ],
+    );
+  }
+
+  Text topictext() {
+    return const Text(
+      'BMI Result',
+      style: TextStyle(
+          fontSize: 30, fontWeight: FontWeight.w700, color: Colors.green),
     );
   }
 
