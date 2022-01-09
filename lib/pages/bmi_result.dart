@@ -28,7 +28,7 @@ class _ResultPageState extends State<ResultPage> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.favorite_border),
             ),
           ],
         ),
@@ -55,9 +55,9 @@ class _ResultPageState extends State<ResultPage> {
               Column(
                 children: [
                   const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-                  btn(context),
+                  calbtn(context),
                   resultbox(),
-                  answerbox()
+                  answerbox(),
                 ],
               ),
               // const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
@@ -163,14 +163,21 @@ class _ResultPageState extends State<ResultPage> {
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.4), BlendMode.dstATop),
-          image: const AssetImage('images/bg_form.jpg'),
+          image: const AssetImage('images/bg_box1.jpg'),
         ),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 5),
+            blurRadius: 12,
+            color: Color(0xFF7A7A7A),
+          )
+        ],
       ),
       child: Text(
         _msg == null ? '' : _msg!.toString(),
         // 'การแปลผล : ' + _msg.toString(),
-        style: const TextStyle(fontSize: 22),
+        style: const TextStyle(fontSize: 24),
         textAlign: TextAlign.center,
       ),
     );
@@ -179,57 +186,77 @@ class _ResultPageState extends State<ResultPage> {
   Container resultbox() {
     return Container(
       margin: const EdgeInsets.fromLTRB(30, 25, 30, 10),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(top: 5),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: const Color(0xffffffff),
         image: DecorationImage(
-          fit: BoxFit.none,
+          fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.4), BlendMode.dstATop),
-          image: const AssetImage('images/bg_form.jpg'),
+          image: const AssetImage('images/bg_drawer2.jpg'),
         ),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(0, 6),
+            blurRadius: 12,
+            color: Color(0xFF7A7A7A),
+          )
+        ],
       ),
-      child: Text(
-        _result == null ? '' : _result!.toStringAsFixed(2),
-        style: const TextStyle(
-            fontSize: 50, fontWeight: FontWeight.w700, color: Colors.green),
-        textAlign: TextAlign.center,
+      child: Column(
+        children: [
+          const Padding(padding: EdgeInsets.only(top: 5)),
+          const Text(
+            'BMI',
+            style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            _result == null ? '' : _result!.toStringAsFixed(2),
+            style: const TextStyle(
+                fontSize: 50, fontWeight: FontWeight.w700, color: Colors.green),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
 
-  Row btn(BuildContext context) {
+  Row calbtn(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
+        ElevatedButton.icon(
+          icon: const FaIcon(FontAwesomeIcons.calculator),
+          label: const Text(
+            'คำนวณ',
+            style: TextStyle(fontSize: 18),
+          ),
           onPressed: () {
             calculate();
           },
-          child: const Text(
-            'คำนวณ',
-            style: TextStyle(fontSize: 20),
-          ),
           style: ElevatedButton.styleFrom(
               // primary: Colors.pink,
-              fixedSize: const Size(120, 40),
+              fixedSize: const Size(140, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15))),
         ),
         const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-        ElevatedButton(
+        ElevatedButton.icon(
+          icon: const FaIcon(FontAwesomeIcons.arrowLeft),
+          label: const Text(
+            'กลับ',
+            style: TextStyle(fontSize: 18),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            'กลับ',
-            style: TextStyle(fontSize: 20),
-          ),
           style: ElevatedButton.styleFrom(
-              // primary: Colors.pink,
-              fixedSize: const Size(120, 40),
+              // primary: Colors.white,
+              // side: const BorderSide(width: 3, color: Colors.green),
+              fixedSize: const Size(140, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15))),
         ),
@@ -249,12 +276,12 @@ class _ResultPageState extends State<ResultPage> {
     double height = double.parse(widget.height!) / 100;
     double weight = double.parse(widget.weight!);
 
-    double heightSquare = height * height;
-    // double result = weight / heightSquare;
+    double heightExponent = height * height;
+    // double result = weight / heightExponent;
     // _result = result;
 
     setState(() {
-      double result = weight / heightSquare;
+      double result = weight / heightExponent;
       _result = result;
       if (_result! < 18.5) {
         _msg = 'น้ำหนักน้อยเกินไป';

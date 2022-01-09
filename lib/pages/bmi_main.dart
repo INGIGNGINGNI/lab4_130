@@ -1,7 +1,8 @@
 import 'package:bmi_app/pages/bmi_result.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _FormPageState extends State<FormPage> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.settings),
+              icon: const Icon(Icons.favorite_border),
             ),
           ],
         ),
@@ -68,7 +69,12 @@ class _FormPageState extends State<FormPage> {
   }
 
   ElevatedButton enterbtn(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
+      icon: const FaIcon(FontAwesomeIcons.checkSquare),
+      label: const Text(
+        'ตกลง',
+        style: TextStyle(fontSize: 18),
+      ),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
           var route = MaterialPageRoute(
@@ -79,16 +85,37 @@ class _FormPageState extends State<FormPage> {
           );
           Navigator.push(context, route);
         } else {
-          Fluttertoast.showToast(
-            msg: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-            timeInSecForIosWeb: 3,
-          );
+          // Fluttertoast.showToast(
+          //   msg: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+          //   timeInSecForIosWeb: 3,
+          // );
+          Alert(
+            context: context,
+            type: AlertType.error,
+            title: 'ผิดพลาด',
+            style: const AlertStyle(
+                titleStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
+                    color: Colors.red)),
+            desc: 'กรุณากรอกส่วนสูงและน้ำหนักของคุณ',
+            buttons: [
+              DialogButton(
+                child: const Text(
+                  "ลองใหม่",
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                ),
+                onPressed: () => Navigator.pop(context),
+                width: 120,
+                radius: const BorderRadius.all(Radius.circular(10)),
+                border:
+                    const Border.fromBorderSide(BorderSide(color: Colors.red)),
+                color: Colors.white,
+              )
+            ],
+          ).show();
         }
       },
-      child: const Text(
-        'ยืนยัน',
-        style: TextStyle(fontSize: 20),
-      ),
       style: ElevatedButton.styleFrom(
           // primary: Colors.pink,
           fixedSize: const Size(150, 50),
@@ -124,6 +151,7 @@ class _FormPageState extends State<FormPage> {
           }
         },
         keyboardType: TextInputType.number,
+        maxLength: 3,
         decoration: InputDecoration(
           label: Text(
             'ส่วนสูง (เซนติเมตร)',
@@ -174,6 +202,7 @@ class _FormPageState extends State<FormPage> {
           }
         },
         keyboardType: TextInputType.number,
+        maxLength: 3,
         decoration: InputDecoration(
           label: Text(
             'น้ำหนัก (กิโลกรัม)',
